@@ -7,19 +7,24 @@ dotenv.config();
 
 let app = express();
 
-app.use(cors);
+app.use(
+  cors({
+    origin: "http://127.0.0.1:5173",
+    methods: ["GET", "POST"],
+  })
+);
 
 let server = http.createServer(app);
 
 let io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "http://127.0.0.1:5173",
     methods: ["POST", "GET"],
   },
 });
 
 io.on("connection", (socket: Socket) => {
-  console.log("user:" + socket.id + " connectted");
+  console.log("user:" + socket.id + " connected");
 
   socket.on("disconnect", () => {
     console.log(socket.id);
